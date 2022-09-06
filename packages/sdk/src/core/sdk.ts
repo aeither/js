@@ -183,7 +183,6 @@ export class ThirdwebSDK extends RPCConnectionHandler {
    * Get an instance of a SignatureDrop contract
    * @param contractAddress - the address of the deployed contract
    * @returns the contract
-   * @internal
    */
   public getSignatureDrop(contractAddress: string): SignatureDrop {
     return this.getBuiltInContract(
@@ -361,6 +360,9 @@ export class ThirdwebSDK extends RPCConnectionHandler {
   /**
    * Return all the contracts deployed by the specified address
    * @param walletAddress - the deployed address
+   * ```javascript
+   * const contracts = sdk.getContractList("{{wallet_address}}");
+   * ```
    */
   public async getContractList(walletAddress: string) {
     const addresses = await (
@@ -431,6 +433,10 @@ export class ThirdwebSDK extends RPCConnectionHandler {
    * @param address - the address of the deployed contract
    * @returns the contract
    * @beta
+   * @example
+   * ```javascript
+   * const contract = sdk.getContract("{{contract_address}}");
+   * ```
    */
   public async getContract(address: string) {
     if (this.contractCache.has(address)) {
@@ -464,7 +470,7 @@ export class ThirdwebSDK extends RPCConnectionHandler {
    * ```javascript
    * // Import your ABI from a JSON file
    * import myABI from "./path/to/myABI.json";
-   * 
+   *
    * const contract = sdk.getContractFromAbi(
    *   "{{contract_address}}",
    *   // Pass in the "abi" field from the JSON file
