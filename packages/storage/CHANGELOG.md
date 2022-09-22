@@ -1,5 +1,19 @@
 # @thirdweb-dev/storage
 
+## 1.0.2
+
+### Patch Changes
+
+- [#163](https://github.com/thirdweb-dev/js/pull/163) [`b54f95d`](https://github.com/thirdweb-dev/js/commit/b54f95dc906928ff2f9251748f254a16fe1f2cee) Thanks [@adam-maj](https://github.com/adam-maj)! - Use independent JSON types by package
+
+- [#156](https://github.com/thirdweb-dev/js/pull/156) [`cfe8bba`](https://github.com/thirdweb-dev/js/commit/cfe8bbafa464a9e768e6d31fbd9dd9760fdced16) Thanks [@adam-maj](https://github.com/adam-maj)! - Add resolveScheme method to storage
+
+- [#180](https://github.com/thirdweb-dev/js/pull/180) [`f4074dd`](https://github.com/thirdweb-dev/js/commit/f4074ddadc9fb6e18dcc9251a936376c3f4a9144) Thanks [@adam-maj](https://github.com/adam-maj)! - Replace schemes after files are uploaded
+
+- [#183](https://github.com/thirdweb-dev/js/pull/183) [`3580182`](https://github.com/thirdweb-dev/js/commit/3580182fa903ed7a661444f0daa160c330e62ec5) Thanks [@jnsdls](https://github.com/jnsdls)! - allow uploading of the same file with the same file name
+
+- [#178](https://github.com/thirdweb-dev/js/pull/178) [`45a400f`](https://github.com/thirdweb-dev/js/commit/45a400fd9287582bfb5f21ab2cb2d7a4332434c5) Thanks [@adam-maj](https://github.com/adam-maj)! - Update API for instantiating storage
+
 ## 1.0.1
 
 ### Patch Changes

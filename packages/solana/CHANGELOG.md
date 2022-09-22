@@ -1,5 +1,20 @@
 # @thirdweb-dev/solana
 
+## 0.2.13
+
+### Patch Changes
+
+- [#167](https://github.com/thirdweb-dev/js/pull/167) [`4169b94`](https://github.com/thirdweb-dev/js/commit/4169b9428f9001b7cad259a4e56fe610316cd191) Thanks [@joaquim-verges](https://github.com/joaquim-verges)! - Syntax changes for react native support
+
+- [#173](https://github.com/thirdweb-dev/js/pull/173) [`fdda564`](https://github.com/thirdweb-dev/js/commit/fdda564b1ebcea22667101e9d4f4f94fdf00ebed) Thanks [@joaquim-verges](https://github.com/joaquim-verges)! - Fix solana browser build
+
+- [#163](https://github.com/thirdweb-dev/js/pull/163) [`b54f95d`](https://github.com/thirdweb-dev/js/commit/b54f95dc906928ff2f9251748f254a16fe1f2cee) Thanks [@adam-maj](https://github.com/adam-maj)! - Use independent JSON types by package
+
+- [#178](https://github.com/thirdweb-dev/js/pull/178) [`45a400f`](https://github.com/thirdweb-dev/js/commit/45a400fd9287582bfb5f21ab2cb2d7a4332434c5) Thanks [@adam-maj](https://github.com/adam-maj)! - Update API for instantiating storage
+
+- Updated dependencies [[`b54f95d`](https://github.com/thirdweb-dev/js/commit/b54f95dc906928ff2f9251748f254a16fe1f2cee), [`cfe8bba`](https://github.com/thirdweb-dev/js/commit/cfe8bbafa464a9e768e6d31fbd9dd9760fdced16), [`f4074dd`](https://github.com/thirdweb-dev/js/commit/f4074ddadc9fb6e18dcc9251a936376c3f4a9144), [`3580182`](https://github.com/thirdweb-dev/js/commit/3580182fa903ed7a661444f0daa160c330e62ec5), [`45a400f`](https://github.com/thirdweb-dev/js/commit/45a400fd9287582bfb5f21ab2cb2d7a4332434c5)]:
+  - @thirdweb-dev/storage@1.0.2
+
 ## 0.2.12
 
 ### Patch Changes

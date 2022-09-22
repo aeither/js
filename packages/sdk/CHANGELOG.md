@@ -1,5 +1,26 @@
 # @thirdweb-dev/sdk
 
+## 3.0.5
+
+### Patch Changes
+
+- [#167](https://github.com/thirdweb-dev/js/pull/167) [`4169b94`](https://github.com/thirdweb-dev/js/commit/4169b9428f9001b7cad259a4e56fe610316cd191) Thanks [@joaquim-verges](https://github.com/joaquim-verges)! - Syntax changes for react native support
+
+- [#174](https://github.com/thirdweb-dev/js/pull/174) [`3b877ba`](https://github.com/thirdweb-dev/js/commit/3b877ba221acfd85f80b99e1bc382055217f0a39) Thanks [@kumaryash90](https://github.com/kumaryash90)! - detect forwarder address for defender
+
+- [#163](https://github.com/thirdweb-dev/js/pull/163) [`b54f95d`](https://github.com/thirdweb-dev/js/commit/b54f95dc906928ff2f9251748f254a16fe1f2cee) Thanks [@adam-maj](https://github.com/adam-maj)! - Use independent JSON types by package
+
+- [#154](https://github.com/thirdweb-dev/js/pull/154) [`f8ab477`](https://github.com/thirdweb-dev/js/commit/f8ab4779bb2d6d66200e1e8fd558e0ac069a2f54) Thanks [@jnsdls](https://github.com/jnsdls)! - Add fiat checkout to nft-drop, edition-drop and signature-drop
+
+- [#162](https://github.com/thirdweb-dev/js/pull/162) [`772f843`](https://github.com/thirdweb-dev/js/commit/772f8431e3a62d0ded62dae90a43e9a7edd5b1a2) Thanks [@joaquim-verges](https://github.com/joaquim-verges)! - Catch gas estimate errors in gasless tx
+
+- [#168](https://github.com/thirdweb-dev/js/pull/168) [`208b038`](https://github.com/thirdweb-dev/js/commit/208b0389a50ea48bbb9600fec60fec2f1671d4b9) Thanks [@jnsdls](https://github.com/jnsdls)! - Switch naming of exported prebuilt contract types back from `<name>Impl` to `<name>` for easier use
+
+- [#161](https://github.com/thirdweb-dev/js/pull/161) [`5345479`](https://github.com/thirdweb-dev/js/commit/534547992243bdd3a77e34ec2b2487b5adab366a) Thanks [@joaquim-verges](https://github.com/joaquim-verges)! - Allow forcing direct deploys to deploy implementations from release flow
+
+- Updated dependencies [[`b54f95d`](https://github.com/thirdweb-dev/js/commit/b54f95dc906928ff2f9251748f254a16fe1f2cee), [`cfe8bba`](https://github.com/thirdweb-dev/js/commit/cfe8bbafa464a9e768e6d31fbd9dd9760fdced16), [`f4074dd`](https://github.com/thirdweb-dev/js/commit/f4074ddadc9fb6e18dcc9251a936376c3f4a9144), [`3580182`](https://github.com/thirdweb-dev/js/commit/3580182fa903ed7a661444f0daa160c330e62ec5), [`45a400f`](https://github.com/thirdweb-dev/js/commit/45a400fd9287582bfb5f21ab2cb2d7a4332434c5)]:
+  - @thirdweb-dev/storage@1.0.2
+
 ## 3.0.4
 
 ### Patch Changes
