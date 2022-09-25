@@ -152,3 +152,4 @@ make test
 
 - [Discord](https://discord.gg/thirdweb)
 - [Twitter](https://twitter.com/thirdweb_/)
+
