@@ -1,3 +1,4 @@
+import { NFT } from "../../../core/schema/nft";
 import {
   fetchCurrencyMetadata,
   hasERC20Allowance,
@@ -10,6 +11,7 @@ import { ContractEncoder } from "../../core/classes/contract-encoder";
 import { ContractEvents } from "../../core/classes/contract-events";
 import { ContractInterceptor } from "../../core/classes/contract-interceptor";
 import { ContractMetadata } from "../../core/classes/contract-metadata";
+import { ContractOwner } from "../../core/classes/contract-owner";
 import { ContractRoles } from "../../core/classes/contract-roles";
 import { ContractRoyalty } from "../../core/classes/contract-royalty";
 import { ContractWrapper } from "../../core/classes/contract-wrapper";
@@ -20,7 +22,6 @@ import {
   NetworkOrSignerOrProvider,
   TransactionResultWithId,
 } from "../../core/types";
-import { EditionMetadata, EditionMetadataOwner } from "../../schema";
 import { PackContractSchema } from "../../schema/contracts/packs";
 import { SDKOptions } from "../../schema/sdk-options";
 import {
@@ -89,6 +90,7 @@ export class Pack extends StandardErc1155<PackContract> {
   public interceptor: ContractInterceptor<PackContract>;
 
   public erc1155: Erc1155<PackContract>;
+  public owner: ContractOwner<PackContract>;
 
   constructor(
     network: NetworkOrSignerOrProvider,
@@ -127,6 +129,7 @@ export class Pack extends StandardErc1155<PackContract> {
     this.estimator = new GasCostEstimator(this.contractWrapper);
     this.events = new ContractEvents(this.contractWrapper);
     this.interceptor = new ContractInterceptor(this.contractWrapper);
+    this.owner = new ContractOwner(this.contractWrapper);
   }
 
   /**
@@ -157,7 +160,7 @@ export class Pack extends StandardErc1155<PackContract> {
    * console.log(packs;
    * ```
    */
-  public async get(tokenId: BigNumberish): Promise<EditionMetadata> {
+  public async get(tokenId: BigNumberish): Promise<NFT> {
     return this.erc1155.get(tokenId);
   }
 
@@ -176,9 +179,7 @@ export class Pack extends StandardErc1155<PackContract> {
    * @param queryParams - optional filtering to only fetch a subset of results.
    * @returns The pack metadata for all packs queried.
    */
-  public async getAll(
-    queryParams?: QueryAllParams,
-  ): Promise<EditionMetadata[]> {
+  public async getAll(queryParams?: QueryAllParams): Promise<NFT[]> {
     return this.erc1155.getAll(queryParams);
   }
 
@@ -196,9 +197,7 @@ export class Pack extends StandardErc1155<PackContract> {
    *
    * @returns The pack metadata for all the owned packs in the contract.
    */
-  public async getOwned(
-    walletAddress?: string,
-  ): Promise<EditionMetadataOwner[]> {
+  public async getOwned(walletAddress?: string): Promise<NFT[]> {
     return this.erc1155.getOwned(walletAddress);
   }
 
@@ -474,7 +473,7 @@ export class Pack extends StandardErc1155<PackContract> {
   public async createTo(
     to: string,
     metadataWithRewards: PackMetadataInput,
-  ): Promise<TransactionResultWithId<EditionMetadata>> {
+  ): Promise<TransactionResultWithId<NFT>> {
     const uri = await uploadOrExtractURI(
       metadataWithRewards.packMetadata,
       this.storage,

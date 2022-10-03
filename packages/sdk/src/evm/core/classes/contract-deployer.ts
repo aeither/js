@@ -39,7 +39,6 @@ import {
 import { ContractFactory } from "./factory";
 import { ContractRegistry } from "./registry";
 import { RPCConnectionHandler } from "./rpc-connection-handler";
-import { TWProxy__factory } from "@thirdweb-dev/contracts-js";
 import { ThirdwebStorage } from "@thirdweb-dev/storage";
 import {
   BigNumber,
@@ -473,6 +472,9 @@ export class ContractDeployer extends RPCConnectionHandler {
     const encodedInitializer = Contract.getInterface(
       implementationAbi,
     ).encodeFunctionData(initializerFunction, initializerArgs);
+    const { TWProxy__factory } = await import(
+      "@thirdweb-dev/contracts-js/factories/TWProxy__factory"
+    );
     return this.deployContractWithAbi(
       TWProxy__factory.abi,
       TWProxy__factory.bytecode,
@@ -624,16 +626,8 @@ export class ContractDeployer extends RPCConnectionHandler {
         constructorParamValues,
       );
 
-      if (isDeployableViaProxy) {
-        // deploy a proxy directly
-        return await this.deployProxy(
-          implementationAddress,
-          compilerMetadata.abi,
-          factoryDeploymentData.implementationInitializerFunction,
-          paramValues,
-        );
-      } else if (isDeployableViaFactory) {
-        // deploy via a factory
+      if (isDeployableViaFactory) {
+        // deploy via a factory (prioritise factory)
         invariant(
           factoryDeploymentData.factoryAddresses,
           "isDeployableViaFactory is true so factoryAddresses is required",
@@ -645,6 +639,14 @@ export class ContractDeployer extends RPCConnectionHandler {
         );
         return await this.deployViaFactory(
           factoryAddress,
+          implementationAddress,
+          compilerMetadata.abi,
+          factoryDeploymentData.implementationInitializerFunction,
+          paramValues,
+        );
+      } else if (isDeployableViaProxy) {
+        // deploy a proxy directly
+        return await this.deployProxy(
           implementationAddress,
           compilerMetadata.abi,
           factoryDeploymentData.implementationInitializerFunction,

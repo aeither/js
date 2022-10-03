@@ -1,3 +1,4 @@
+import { NFT, NFTMetadata, NFTMetadataOrUri } from "../../../core/schema/nft";
 import { getRoleHash } from "../../common";
 import { FEATURE_NFT_REVEALABLE } from "../../constants/erc721-features";
 import { TransactionTask } from "../../core/classes/TransactionTask";
@@ -5,6 +6,7 @@ import { ContractEncoder } from "../../core/classes/contract-encoder";
 import { ContractEvents } from "../../core/classes/contract-events";
 import { ContractInterceptor } from "../../core/classes/contract-interceptor";
 import { ContractMetadata } from "../../core/classes/contract-metadata";
+import { ContractOwner } from "../../core/classes/contract-owner";
 import { ContractPlatformFee } from "../../core/classes/contract-platform-fee";
 import { ContractRoles } from "../../core/classes/contract-roles";
 import { ContractRoyalty } from "../../core/classes/contract-royalty";
@@ -24,11 +26,6 @@ import {
 import { PaperCheckout } from "../../integrations/paper-xyz";
 import { DropErc721ContractSchema } from "../../schema/contracts/drop-erc721";
 import { SDKOptions } from "../../schema/sdk-options";
-import {
-  NFTMetadata,
-  NFTMetadataOrUri,
-  NFTMetadataOwner,
-} from "../../schema/tokens/common";
 import { ClaimOptions, UploadProgressEvent } from "../../types";
 import {
   DEFAULT_QUERY_ALL_COUNT,
@@ -60,6 +57,7 @@ export class SignatureDrop extends StandardErc721<SignatureDropContract> {
 
   public abi: typeof ABI;
   public erc721: Erc721<SignatureDropContract>;
+  public owner: ContractOwner<SignatureDropContract>;
   public encoder: ContractEncoder<SignatureDropContract>;
   public estimator: GasCostEstimator<SignatureDropContract>;
   public metadata: ContractMetadata<
@@ -219,6 +217,7 @@ export class SignatureDrop extends StandardErc721<SignatureDropContract> {
       this.contractWrapper,
       this.storage,
     );
+    this.owner = new ContractOwner(this.contractWrapper);
 
     this.checkout = new PaperCheckout(this.contractWrapper);
   }
@@ -261,9 +260,7 @@ export class SignatureDrop extends StandardErc721<SignatureDropContract> {
    * @param queryParams - optional filtering to only fetch a subset of results.
    * @returns The NFT metadata and their ownersfor all NFTs queried.
    */
-  public async getAllClaimed(
-    queryParams?: QueryAllParams,
-  ): Promise<NFTMetadataOwner[]> {
+  public async getAllClaimed(queryParams?: QueryAllParams): Promise<NFT[]> {
     const start = BigNumber.from(queryParams?.start || 0).toNumber();
     const count = BigNumber.from(
       queryParams?.count || DEFAULT_QUERY_ALL_COUNT,
@@ -447,7 +444,7 @@ export class SignatureDrop extends StandardErc721<SignatureDropContract> {
     destinationAddress: string,
     quantity: BigNumberish,
     options?: ClaimOptions,
-  ): Promise<TransactionResultWithId<NFTMetadataOwner>[]> {
+  ): Promise<TransactionResultWithId<NFT>[]> {
     return this.erc721.claimTo(destinationAddress, quantity, options);
   }
 
@@ -461,7 +458,7 @@ export class SignatureDrop extends StandardErc721<SignatureDropContract> {
   public async claim(
     quantity: BigNumberish,
     options?: ClaimOptions,
-  ): Promise<TransactionResultWithId<NFTMetadataOwner>[]> {
+  ): Promise<TransactionResultWithId<NFT>[]> {
     return this.erc721.claim(quantity, options);
   }
 

@@ -15,11 +15,13 @@ export * from "./hooks/nft/useNFTs";
 export * from "./hooks/nft/useMintNFT";
 export * from "./hooks/nft/useNFT";
 export * from "./hooks/nft/useTransferNFT";
+export * from "./hooks/nft/useBurnNFT";
 
 // NFT Drop
 export * from "./hooks/nft/drop/useLazyMintNFT";
 export * from "./hooks/nft/drop/useClaimedSupply";
 export * from "./hooks/nft/drop/useUnclaimedSupply";
+export * from "./hooks/nft/drop/useClaimNFT";
 
 // Token
 export * from "./hooks/token/useTokenSupply";

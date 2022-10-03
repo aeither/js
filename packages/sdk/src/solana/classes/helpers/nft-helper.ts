@@ -1,5 +1,5 @@
+import { NFT } from "../../../core/schema/nft";
 import { TransactionResult } from "../../types/common";
-import { NFTMetadata } from "../../types/nft";
 import {
   JsonMetadata,
   Metadata,
@@ -25,26 +25,25 @@ export class NFTHelper {
     this.connection = metaplex.connection;
   }
 
-  async get(mintAddress: string): Promise<NFTMetadata> {
+  async get(nftAddress: string): Promise<NFT> {
     const meta = await this.metaplex
       .nfts()
       .findByMint({
-        mintAddress: new PublicKey(mintAddress),
+        mintAddress: new PublicKey(nftAddress),
       })
       .run();
-
     return this.toNFTMetadata(meta);
   }
 
   async transfer(
     receiverAddress: string,
-    mintAddress: string,
+    nftAddress: string,
     quantity: number = 1,
   ): Promise<TransactionResult> {
     const result = await this.metaplex
       .nfts()
       .send({
-        mintAddress: new PublicKey(mintAddress),
+        mintAddress: new PublicKey(nftAddress),
         toOwner: new PublicKey(receiverAddress),
         amount: token(quantity, 0),
       })
@@ -55,9 +54,9 @@ export class NFTHelper {
     };
   }
 
-  async balanceOf(walletAddress: string, mintAddress: string): Promise<number> {
+  async balanceOf(walletAddress: string, nftAddress: string): Promise<number> {
     const address = await getAssociatedTokenAddress(
-      new PublicKey(mintAddress),
+      new PublicKey(nftAddress),
       new PublicKey(walletAddress),
     );
 
@@ -76,13 +75,19 @@ export class NFTHelper {
       | NftWithToken
       | SftWithToken
       | Metadata<JsonMetadata<string>>,
-  ) {
+  ): NFT {
+    const mint = "mint" in meta ? meta.mint : undefined;
     return {
-      id: meta.address.toBase58(),
-      uri: meta.uri,
-      name: meta.name,
-      symbol: meta.symbol,
-      ...meta.json,
-    } as NFTMetadata;
+      metadata: {
+        id: meta.address.toBase58(),
+        uri: meta.uri,
+        name: meta.name,
+        symbol: meta.symbol,
+        ...meta.json,
+      },
+      owner: meta.updateAuthorityAddress.toBase58(),
+      supply: mint ? mint.supply.basisPoints.toNumber() : 0,
+      type: "metaplex",
+    };
   }
 }

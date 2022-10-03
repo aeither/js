@@ -1,3 +1,4 @@
+import { NFT, NFTMetadataOrUri } from "../../../core/schema/nft";
 import {
   fetchCurrencyMetadata,
   hasERC20Allowance,
@@ -8,6 +9,7 @@ import { uploadOrExtractURI } from "../../common/nft";
 import { ContractEncoder } from "../../core/classes/contract-encoder";
 import { ContractEvents } from "../../core/classes/contract-events";
 import { ContractMetadata } from "../../core/classes/contract-metadata";
+import { ContractOwner } from "../../core/classes/contract-owner";
 import { ContractRoles } from "../../core/classes/contract-roles";
 import { ContractRoyalty } from "../../core/classes/contract-royalty";
 import { ContractWrapper } from "../../core/classes/contract-wrapper";
@@ -18,7 +20,7 @@ import {
   TransactionResult,
   TransactionResultWithId,
 } from "../../core/types";
-import { NFTMetadataOrUri, NFTMetadataOwner, SDKOptions } from "../../schema";
+import { SDKOptions } from "../../schema";
 import { MultiwrapContractSchema } from "../../schema/contracts/multiwrap";
 import {
   ERC1155Wrappable,
@@ -93,6 +95,7 @@ export class Multiwrap extends StandardErc721<MultiwrapContract> {
     MultiwrapContract,
     typeof MultiwrapContractSchema
   >;
+  public owner: ContractOwner<MultiwrapContract>;
 
   constructor(
     network: NetworkOrSignerOrProvider,
@@ -123,6 +126,7 @@ export class Multiwrap extends StandardErc721<MultiwrapContract> {
     this.estimator = new GasCostEstimator(this.contractWrapper);
     this.events = new ContractEvents(this.contractWrapper);
     this.royalties = new ContractRoyalty(this.contractWrapper, this.metadata);
+    this.owner = new ContractOwner(this.contractWrapper);
   }
 
   /** ******************************
@@ -230,7 +234,7 @@ export class Multiwrap extends StandardErc721<MultiwrapContract> {
     contents: TokensToWrap,
     wrappedTokenMetadata: NFTMetadataOrUri,
     recipientAddress?: string,
-  ): Promise<TransactionResultWithId<NFTMetadataOwner>> {
+  ): Promise<TransactionResultWithId<NFT>> {
     const uri = await uploadOrExtractURI(wrappedTokenMetadata, this.storage);
 
     const recipient = recipientAddress

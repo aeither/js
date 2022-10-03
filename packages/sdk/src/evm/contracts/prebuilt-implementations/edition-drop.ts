@@ -1,9 +1,11 @@
+import { NFT, NFTMetadata, NFTMetadataOrUri } from "../../../core/schema/nft";
 import { getRoleHash } from "../../common";
 import { TransactionTask } from "../../core/classes/TransactionTask";
 import { ContractEncoder } from "../../core/classes/contract-encoder";
 import { ContractEvents } from "../../core/classes/contract-events";
 import { ContractInterceptor } from "../../core/classes/contract-interceptor";
 import { ContractMetadata } from "../../core/classes/contract-metadata";
+import { ContractOwner } from "../../core/classes/contract-owner";
 import { ContractPlatformFee } from "../../core/classes/contract-platform-fee";
 import { ContractRoles } from "../../core/classes/contract-roles";
 import { ContractRoyalty } from "../../core/classes/contract-royalty";
@@ -20,10 +22,8 @@ import {
   TransactionResultWithId,
 } from "../../core/types";
 import { PaperCheckout } from "../../integrations/paper-xyz";
-import { EditionMetadata, EditionMetadataOwner } from "../../schema";
 import { DropErc1155ContractSchema } from "../../schema/contracts/drop-erc1155";
 import { SDKOptions } from "../../schema/sdk-options";
-import { NFTMetadata, NFTMetadataOrUri } from "../../schema/tokens/common";
 import { QueryAllParams, UploadProgressEvent } from "../../types";
 import type { DropERC1155 } from "@thirdweb-dev/contracts-js";
 import type ABI from "@thirdweb-dev/contracts-js/dist/abis/DropERC1155.json";
@@ -117,6 +117,7 @@ export class EditionDrop extends StandardErc1155<DropERC1155> {
   public history: DropErc1155History;
   public interceptor: ContractInterceptor<DropERC1155>;
   public erc1155: Erc1155<DropERC1155>;
+  public owner: ContractOwner<DropERC1155>;
 
   constructor(
     network: NetworkOrSignerOrProvider,
@@ -157,6 +158,7 @@ export class EditionDrop extends StandardErc1155<DropERC1155> {
     this.interceptor = new ContractInterceptor(this.contractWrapper);
     this.erc1155 = new Erc1155(this.contractWrapper, this.storage);
     this.checkout = new PaperCheckout(this.contractWrapper);
+    this.owner = new ContractOwner(this.contractWrapper);
   }
 
   /**
@@ -190,9 +192,7 @@ export class EditionDrop extends StandardErc1155<DropERC1155> {
    * @param queryParams - optional filtering to only fetch a subset of results.
    * @returns The NFT metadata for all NFTs queried.
    */
-  public async getAll(
-    queryParams?: QueryAllParams,
-  ): Promise<EditionMetadata[]> {
+  public async getAll(queryParams?: QueryAllParams): Promise<NFT[]> {
     return this.erc1155.getAll(queryParams);
   }
 
@@ -210,9 +210,7 @@ export class EditionDrop extends StandardErc1155<DropERC1155> {
    *
    * @returns The NFT metadata for all NFTs in the contract.
    */
-  public async getOwned(
-    walletAddress?: string,
-  ): Promise<EditionMetadataOwner[]> {
+  public async getOwned(walletAddress?: string): Promise<NFT[]> {
     return this.erc1155.getOwned(walletAddress);
   }
 
